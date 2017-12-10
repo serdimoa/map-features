@@ -33,7 +33,7 @@ class Map extends React.Component {
       });
     }
 
-    const overlay = new ol.Overlay({
+    this.overlay = new ol.Overlay({
       element: this.popUp,
       autoPan: true,
       autoPanAnimation: {
@@ -62,7 +62,7 @@ class Map extends React.Component {
         center: [700000, 5000000],
         zoom: 2,
       }),
-      overlays: [overlay],
+      overlays: [this.overlay],
       controls: [
         new ol.control.ZoomSlider(),
       ],
@@ -70,10 +70,15 @@ class Map extends React.Component {
 
     map.on('click', (e) => {
       map.forEachFeatureAtPixel(e.pixel, (feature) => {
-        overlay.setPosition(feature.getGeometry().getCoordinates());
         this.props.selectUserById(feature.getId());
       });
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { sideBar: { selected } } = nextProps;
+    const { sideBar: { users } } = this.props;
+    this.overlay.setPosition(ol.proj.fromLonLat(users[selected].geometry.coordinates));
   }
 
   render() {

@@ -1,8 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-const User = ({ properties: { userName, avatar }, selected }) => (
-  <div className={`User ${selected && 'selected'}`}>
+const User = ({ properties: { userName, avatar }, selected, onSelectUser }) => (
+  <div
+    className={`User ${selected && 'selected'}`}
+    onClick={onSelectUser}
+  >
     <img className="User__img" src={avatar} alt={userName} />
     {userName}
   </div>
@@ -15,6 +18,7 @@ User.propTypes = {
     avatar: PropTypes.string.isRequired,
   }).isRequired,
   selected: PropTypes.bool.isRequired,
+  onSelectUser: PropTypes.func.isRequired,
 };
 
 export default User;
