@@ -3,16 +3,11 @@ import ol from 'openlayers';
 import PropTypes from 'prop-types';
 import * as _ from 'lodash';
 import { connect } from 'react-redux';
+import PopUpUser from '../Components/PopUpUser';
 
 import { selectUserById } from '../Actions/app.actions';
 
 class Map extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: '',
-    };
-  }
   componentDidMount() {
     const { sideBar: { users } } = this.props;
     const features = [];
@@ -82,6 +77,7 @@ class Map extends React.Component {
   }
 
   render() {
+    const { sideBar: { selected, users } } = this.props;
     return (
       <div className="map">
         <div
@@ -89,9 +85,8 @@ class Map extends React.Component {
           className="ol-map"
         />
         <div id="popup" ref={(popUp) => { this.popUp = popUp; }} className="ol-popup">
-          <button id="popup-closer" className="ol-popup-closer" />
           <div id="popup-content">
-            {this.state.text}
+            {selected && <PopUpUser {..._.get(users, [selected, 'properties'], '')} />}
           </div>
         </div>
       </div>);
@@ -103,6 +98,7 @@ Map.propTypes = {
     PropTypes.any,
     PropTypes.shape({
       users: PropTypes.array.isRequired,
+      selected: PropTypes.number.isRequired,
     }).isRequired]).isRequired,
   selectUserById: PropTypes.func.isRequired,
 };

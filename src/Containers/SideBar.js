@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import User from '../Components/User';
 
 const SideBar = (props) => {
-  const { sideBar: { users } } = props;
+  const { sideBar: { users, selected } } = props;
   if (!users) {
     return (
       <div>loading...</div>
@@ -13,7 +13,7 @@ const SideBar = (props) => {
   }
   return (
     <div className="SideBar">
-      {_.map(users, user => <User key={user.id} {...user} />)}
+      {_.map(users, user => <User key={user.id} {...user} selected={user.id === selected} />)}
     </div>
   );
 };

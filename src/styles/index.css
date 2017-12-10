@@ -32,6 +32,10 @@ body {
   cursor: pointer;
 }
 
+.User.selected {
+  background: #588C7E;
+}
+
 .User__img {
   max-height: 50px;
   padding-right: 5px;
