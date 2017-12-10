@@ -49,7 +49,7 @@ class Map extends React.Component {
       source: vectorSource,
     });
 
-    const map = new ol.Map({
+    this.map = new ol.Map({
       target: this.mapTargetElement,
       layers: [
         new ol.layer.Tile({
@@ -68,8 +68,8 @@ class Map extends React.Component {
       ],
     });
 
-    map.on('click', (e) => {
-      map.forEachFeatureAtPixel(e.pixel, (feature) => {
+    this.map.on('click', (e) => {
+      this.map.forEachFeatureAtPixel(e.pixel, (feature) => {
         this.props.selectUserById(feature.getId());
       });
     });
@@ -79,6 +79,8 @@ class Map extends React.Component {
     const { sideBar: { selected } } = nextProps;
     const { sideBar: { users } } = this.props;
     this.overlay.setPosition(ol.proj.fromLonLat(users[selected].geometry.coordinates));
+    this.map.getView().setCenter(ol.proj.fromLonLat(users[selected].geometry.coordinates));
+    this.map.getView().setZoom(5);
   }
 
   render() {
